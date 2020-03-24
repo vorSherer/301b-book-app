@@ -2,7 +2,7 @@
 
 **Author(s)**: Jesse Peña, Thomas Sherer
 
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.0.2 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
@@ -19,6 +19,39 @@
 01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource.
 -->
 
+## Feature #: Lab 11 Feature 1
+### Estimate of time needed to complete
+3 hrs.
+### Start date and time
+0900 am
+### Finish time
+1115 am
+### Actual time needed to complete
+2 hrs. 15 min.
+
+
+## Feature #: Lab 11 Feature 2
+### Estimate of time needed to complete
+1 hr.
+### Start date and time
+1115 am
+### Finish time
+1130 am
+### Actual time needed to complete
+15 min.
+
+
+## Feature #: Lab 11 Feature 3
+### Estimate of time needed to complete
+1 hr.
+### Start date and time
+1130 am
+### Finish time
+NN am
+### Actual time needed to complete
+NN min.
+
+
 ## Feature #: FEATURE DESCRIPTION
 ### Estimate of time needed to complete
 NN
@@ -27,7 +60,7 @@ NN am
 ### Finish time
 NN am
 ### Actual time needed to complete
-NN min
+NN hrs. NN min.
 
 
 ## Credits and Collaborations
