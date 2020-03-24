@@ -21,6 +21,10 @@ app.get('/', (request, response) => {
     response.render('./pages/index.ejs');
 })
 
+app.get('/searches/new', (request, response) => {
+    response.render('./pages/searches/new.ejs');
+})
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 })
