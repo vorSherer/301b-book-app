@@ -5,10 +5,10 @@
 **Version**: 1.0.2 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+This app allows a user to search for a book by title or author, see an image and information about the book, and do other stuff we will find out about in later labs.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+We used node and npm to install dotenv, ejs, express, and superagent.
 
 ## Architecture
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
@@ -45,9 +45,9 @@
 ### Estimate of time needed to complete
 1 hr.
 ### Start date and time
-1130 am
+1130 - 1156 am
 ### Finish time
-NN am
+1250 - 1330 pm
 ### Actual time needed to complete
 NN min.
 
