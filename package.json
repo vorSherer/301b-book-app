@@ -1,0 +1,27 @@
+{
+  "name": "301b-book-app",
+  "version": "1.0.0",
+  "description": "**Author(s)**: Jesse Peña, Thomas Sherer",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vorSherer/301b-book-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vorSherer/301b-book-app/issues"
+  },
+  "homepage": "https://github.com/vorSherer/301b-book-app#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "superagent": "^5.2.2"
+  }
+}
