@@ -19,11 +19,15 @@ const PORT = process.env.PORT || 3001;
 app.get('/', (request, response) => {
     // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
     response.render('./pages/index.ejs');
+})//.catch(err => errorHandler(err, response));
+
+app.get('errors', (request, response) => {
+    response.render('./pages/error.ejs');
 })
 
 app.get('/searches/new', (request, response) => {
     response.render('./pages/searches/new.ejs');
-})
+})//.catch(err => errorHandler(err, response));
 
 app.post('/searches', (request, response) => {
     // console.log('req.body: ', request.body);     // REMOVE THIS BEFORE FINISHING
@@ -47,21 +51,34 @@ app.post('/searches', (request, response) => {
         return new Book(book.volumeInfo);
     })
     response.render('./pages/searches/show.ejs', {books:returnSample})
-    })
+    })//.catch(err => errorHandler(err, response));
 })
 
 //response.body path items.volumeInfo
 function Book (obj) {
     const placeholderImage = 'http://i.imgur.com/J5LVHEL.jpg';
-
+    const regex = /^(http:\/\/)/g;
     // console.log('constr title: ', obj.title);     // REMOVE THIS BEFORE FINISHING
     
-    this.title = obj.title || 'Title not available';
-    this.authors = obj.authors[0] || 'No single author available';
-    this.thumbnail_url = obj.imageLinks.smallThumbnail || placeholderImage;
-    this.description = obj.description;
+    this.title = obj.title ? obj.title : 'Title not available';
+    this.authors = obj.authors ? obj.authors[0] : 'No single author available';
+    this.thumbnail_url = obj.imageLinks ? obj.imageLinks.smallThumbnail.replace(regex, 'https://') : placeholderImage;
+    this.description = obj.description ? obj.description : 'Description not provided';
     // this.isbn13 = obj.industryIdentifiers[0].identifier;
 }
+
+function errorHandler (err, response) {
+    console.error(err);
+    if(response) {
+        response.status(500).send('Sorry, I can\'t help with that.');
+    }
+}
+
+app.get('*', (request, response) => {  
+    res.status(404).send('Sorry, the page you requested does not exist! :( ');
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
