@@ -20,8 +20,14 @@ const pg = require('pg');
 
 const client = new pg.Client(process.env.DATABASE_URL);
 
-client.on('error', err => errorHandler(err));
+client.on('error', err => console.error(err));   // TODO: write a new errorHandler to render only this error to the page without a response.
 
+
+
+app.get('/', (request, response) => {
+    // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
+    response.render('./pages/index.ejs');
+})
 
 app.get('/searches/new', (request, response) => {
     response.render('./pages/searches/new.ejs');
@@ -53,7 +59,18 @@ app.post('/searches', (request, response) => {
     })//.catch(err => errorHandler(err, response));
 })
 
-
+app.post('/books', (request, response) => {
+    console.log(request.body);
+    let{title, description} = request.body;
+    let sql = 'INSERT INTO savedbooks (title, description) VALUES ($1, $2) RETURNING id;';
+    let safeValues = [title, description];
+    client.query(sql, safeValues)
+    .then(results => {
+        console.log(results.rows);
+        let id = results.rows.id;
+        // find matching book id, render that to a details page.
+    })
+})
 
 //response.body path items.volumeInfo
 function Book (obj) {
@@ -78,12 +95,6 @@ app.get('*', (request, response) => {
     response.status(404).send('Sorry, the page you requested does not exist! :( ');
 });
 
-// $(() => {
-    app.get('/', (request, response) => {
-        // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
-        response.render('./pages/index.ejs');
-    })
-// })
 
 client.connect()
 .then(() => {

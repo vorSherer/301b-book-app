@@ -1,8 +1,9 @@
+DROP TABLE IF EXISTS savedbooks;
 
 CREATE TABLE savedbooks (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(100),
-    authors VARCHAR(50),
-    thumbnail_url VARCHAR(150),
-    description VARCHAR(255)
-)
+    title VARCHAR(255),
+    authors VARCHAR(255),
+    thumbnail_url TEXT,
+    description TEXT
+);
