@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 const PORT = process.env.PORT || 3001;
 
 app.get('/', (request, response) => {
-    // console.log('/hello route');
+    // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
     response.render('./pages/index.ejs');
 })
 
@@ -26,7 +26,7 @@ app.get('/searches/new', (request, response) => {
 })
 
 app.post('/searches', (request, response) => {
-    console.log(request.body);
+    // console.log('req.body: ', request.body);     // REMOVE THIS BEFORE FINISHING
     let searchItem = request.body.search[0]
     let titleOrAuthor = request.body.search[1];
   
@@ -37,21 +37,30 @@ app.post('/searches', (request, response) => {
     } else if(titleOrAuthor === 'author') {
     url += `+inauthor:${searchItem}`;
     }
-    // superagent.get(url)
-    // console.log(url);
-    // .then(results => {
-    //     // process results and send to constructor
 
-    // })
+    superagent.get(url)
+    .then(results => {
+        // console.log('res.body: ', results.body);     // REMOVE THIS BEFORE FINISHING
+        let bookArr = results.body.items;
+        // console.log('bookArr[0].volInfo: ', bookArr[0].volumeInfo);     // REMOVE THIS BEFORE FINISHING
+        let returnSample = bookArr.map(book => {
+        return new Book(book.volumeInfo);
+    })
+    response.render('./pages/searches/show.ejs', {books:returnSample})
+    })
 })
 
 //response.body path items.volumeInfo
 function Book (obj) {
-    this.title = obj.title;
-    this.authors = obj.authors;
-    this.thumbnail_url = obj.imageLinks.smallThumbnail;
-    this.description = obj.
-    this.isbn13 = obj.industryIdentifiers.identifier[0];
+    const placeholderImage = 'http://i.imgur.com/J5LVHEL.jpg';
+
+    // console.log('constr title: ', obj.title);     // REMOVE THIS BEFORE FINISHING
+    
+    this.title = obj.title || 'Title not available';
+    this.authors = obj.authors[0] || 'No single author available';
+    this.thumbnail_url = obj.imageLinks.smallThumbnail || placeholderImage;
+    this.description = obj.description;
+    // this.isbn13 = obj.industryIdentifiers[0].identifier;
 }
 
 app.listen(PORT, () => {
