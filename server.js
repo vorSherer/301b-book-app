@@ -16,18 +16,17 @@ app.set('view engine', 'ejs');
 
 const PORT = process.env.PORT || 3001;
 
-app.get('/', (request, response) => {
-    // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
-    response.render('./pages/index.ejs');
-})//.catch(err => errorHandler(err, response));
+const pg = require('pg');
 
-app.get('errors', (request, response) => {
-    response.render('./pages/error.ejs');
-})
+const client = new pg.Client(process.env.DATABASE_URL);
+
+client.on('error', err => errorHandler(err));
+
 
 app.get('/searches/new', (request, response) => {
     response.render('./pages/searches/new.ejs');
-})//.catch(err => errorHandler(err, response));
+})
+
 
 app.post('/searches', (request, response) => {
     // console.log('req.body: ', request.body);     // REMOVE THIS BEFORE FINISHING
@@ -54,6 +53,8 @@ app.post('/searches', (request, response) => {
     })//.catch(err => errorHandler(err, response));
 })
 
+
+
 //response.body path items.volumeInfo
 function Book (obj) {
     const placeholderImage = 'http://i.imgur.com/J5LVHEL.jpg';
@@ -68,18 +69,26 @@ function Book (obj) {
 }
 
 function errorHandler (err, response) {
-    console.error(err);
-    if(response) {
-        response.status(500).send('Sorry, I can\'t help with that.');
-    }
+    // response.render('./pages/error.ejs', {error:'status 500, Not found.'});
+    err = 'Sorry, not a valid search.'
+    response.render('./pages/error.ejs', {error:(err)});
 }
 
 app.get('*', (request, response) => {  
-    res.status(404).send('Sorry, the page you requested does not exist! :( ');
+    response.status(404).send('Sorry, the page you requested does not exist! :( ');
 });
 
+// $(() => {
+    app.get('/', (request, response) => {
+        // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
+        response.render('./pages/index.ejs');
+    })
+// })
 
+client.connect()
+.then(() => {
+    app.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}`);
+    });
+});
 
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
-})

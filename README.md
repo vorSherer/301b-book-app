@@ -51,16 +51,16 @@ We used node and npm to install dotenv, ejs, express, and superagent.
 ### Resume date and time
 2020-03-25, 0800 am
 ### Finish time
-NN am
+0955 am
 ### Actual time needed to complete
 NN hrs. NN min
 
 
-## Feature #: FEATURE DESCRIPTION
+## Feature #: Lab 11 FEATURE 4 Error View
 ### Estimate of time needed to complete
-NN
+2 hrs.
 ### Start date and time
-NN am
+2020-03-25, 1000 am
 ### Finish time
 NN am
 ### Resume date and time

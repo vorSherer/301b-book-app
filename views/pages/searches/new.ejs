@@ -2,9 +2,17 @@
 <html lang="en">
   <head>
     <title>Book Collection</title>
+    <link rel="stylesheet" href="../../styles/reset.css" />
+    <link rel="stylesheet" href="../../styles/base.css" />
   </head>
   <body>
     <main>
+      <nav>
+        <h4>Great Reads!</h4>
+        <a href="/">Home</a>
+        <a href="/searches/new">Search</a>
+        <a href="/searches/show">Results</a>
+      </nav>
       <h4>Search by Title or Author</h4>
       <form action="/searches" method="post">
         <input type="text" name="search" placeholder="Enter a title or author" required>

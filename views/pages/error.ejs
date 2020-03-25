@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error Page</title>
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
 </head>
 <body>
+    <nav>
+        <a href="views/pages/index.ejs">Home</a>
+        <a href="views/pages/searches/new.ejs">Search</a>
+        <a href="views/pages/searches/show.ejs">Collection</a>
+    </nav>
+    <main>
     <h1>Error! Error! Danger, Will Robinson!</h1>
 
-    <ul>
-        <!-- <% books.forEach(result => { %>
-            <img src="<%= result.thumbnail_url %>" />
-            <li><%= result.title %></li>
-            <li><%= result.description %></li>
-        <% }) %> -->
-    </ul>
-</body>
+        <%= error %>
+    </main>
+    </body>
 </html>
