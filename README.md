@@ -45,11 +45,15 @@ We used node and npm to install dotenv, ejs, express, and superagent.
 ### Estimate of time needed to complete
 1 hr.
 ### Start date and time
-1130 - 1156 am
+1130 - 1156 am   26 min.
 ### Finish time
-1250 - 1330 pm
+1250 - 1330 pm   40 min.
+### Resume date and time
+2020-03-25, 0800 am
+### Finish time
+NN am
 ### Actual time needed to complete
-NN min.
+NN hrs. NN min
 
 
 ## Feature #: FEATURE DESCRIPTION
@@ -59,8 +63,27 @@ NN
 NN am
 ### Finish time
 NN am
+### Resume date and time
+2020-03-25, 0800 am
+### Finish time
+NN am
 ### Actual time needed to complete
-NN hrs. NN min.
+NN hrs. NN min
+
+
+## Feature #: FEATURE DESCRIPTION
+### Estimate of time needed to complete
+NN
+### Start date and time
+NN am
+### Finish time
+NN am
+### Resume date and time
+2020-03-25, 0800 am
+### Finish time
+NN am
+### Actual time needed to complete
+NN hrs. NN min
 
 
 ## Credits and Collaborations
