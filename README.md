@@ -79,6 +79,21 @@ NN hrs. NN min
 1 hr. 15 min
 
 
+## Feature #: Lab 12 FEATURE 2 Book Details
+### Estimate of time needed to complete
+2 hrs.
+### Start date and time
+2020-03-26, 0730 am
+### Finish time
+NN am
+### Resume date and time
+2020-03-NN, NN am
+### Finish time
+NN am
+### Actual time needed to complete
+NN hrs. NN min
+
+
 ## Feature #: Lab NN FEATURE NN DESCR
 ### Estimate of time needed to complete
 NN hrs.

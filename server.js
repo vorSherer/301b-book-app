@@ -39,16 +39,17 @@ function renderHomepage(request, response) {
     .then(results => {
         let books = results.rows;
         let bookCount = books.length;
-        console.log('book count ', bookCount);
-        response.render('./pages/searches/details.ejs', {booksArray: books, bookCount});
+        console.log('book count ', bookCount);     // REMOVE THIS BEFORE FINISHING
+        response.render('./pages/index.ejs', {booksArray: books, bookCount}); // not doing anything yet with bookCount on index page.
     })
 }
 
+//..................... Book Search function ........................//
 app.get('/searches/new', (request, response) => {
     response.render('./pages/searches/new.ejs');
 })
 
-
+//.....................Initial Book Search function ........................//
 app.post('/searches', (request, response) => {
     // console.log('req.body: ', request.body);     // REMOVE THIS BEFORE FINISHING
     let searchItem = request.body.search[0]
@@ -74,20 +75,7 @@ app.post('/searches', (request, response) => {
     })//.catch(err => errorHandler(err, response));
 })
 
-app.post('/books', (request, response) => {
-    // console.log(request.body);     // REMOVE THIS BEFORE FINISHING
-    let{title, authors, thumbnail_url, description} = request.body;
-    let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4) RETURNING id;';
-    let safeValues = [title, authors, thumbnail_url, description];
-    client.query(sql, safeValues)
-    .then(results => {
-        let id = results.rows.id;
-
-        // find matching book id, render that to a details page.
-    })
-})
-
-//response.body path items.volumeInfo
+//..................... Book Constructor function ........................//
 function Book (obj) {
     const placeholderImage = 'http://i.imgur.com/J5LVHEL.jpg';
     const regex = /^(http:\/\/)/g;
@@ -100,8 +88,38 @@ function Book (obj) {
     // this.isbn13 = obj.industryIdentifiers[0].identifier;
 }
 
+//.....................Add Book function ........................//
+app.post('/books', (request, response) => {
+    // console.log(request.body);     // REMOVE THIS BEFORE FINISHING
+    let{title, authors, thumbnail_url, description} = request.body;
+    let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4) RETURNING id;';
+    let safeValues = [title, authors, thumbnail_url, description];
+    client.query(sql, safeValues)
+    .then(results => {
+        let id = results.rows.id;
+        response.redirect(`./pages/books/detail.ejs/${id}`);
+        // find matching book id, render that to a details page.
+    })
+})
+
+//.....................Select Book From Database function ........................//
+app.get('/books/:id', (request, response) => {
+    let sql = 'SELECT * FROM savedbooks WHERE id=$1;';
+    let safeValue = [request.params.id];
+    client.query(sql, safeValue)
+    .then(results => {
+        let singleBook = results.rows;
+        response.render('./pages/books/detail.ejs', {book: singleBook});
+    })
+});
+
+
+
+
+//..................... Update Book in Database function ........................//
 // app.put('/update/:task_id', updateBookshelf);
 
+//..................... Delete Book From Database function ........................//
 // function deleteBook(request, response) {
 //     // get the id from the param
 //     let id = request.params.book_id;
