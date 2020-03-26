@@ -57,29 +57,37 @@ NN hrs. NN min
 
 
 ## Feature #: Lab 11 FEATURE 4 Error View
+## Feature #: Lab 11 FEATURE 6 Home page
 ### Estimate of time needed to complete
 2 hrs.
 ### Start date and time
 2020-03-25, 1000 am
 ### Finish time
-NN am
-### Resume date and time
-2020-03-25, 0800 am
-### Finish time
-NN am
+1300 pm
 ### Actual time needed to complete
-NN hrs. NN min
+3 hrs.
 
 
-## Feature #: FEATURE DESCRIPTION
+## Feature #: Lab 12 FEATURE 1 Home page collection view
 ### Estimate of time needed to complete
-NN
+2 hrs.
 ### Start date and time
-NN am
+2020-03-25, 1715 pm
+### Finish time
+1830 pm
+### Actual time needed to complete
+1 hr. 15 min
+
+
+## Feature #: Lab NN FEATURE NN DESCR
+### Estimate of time needed to complete
+NN hrs.
+### Start date and time
+2020-03-NN, NN am
 ### Finish time
 NN am
 ### Resume date and time
-2020-03-25, 0800 am
+2020-03-NN, NN am
 ### Finish time
 NN am
 ### Actual time needed to complete
