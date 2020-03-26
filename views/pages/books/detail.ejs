@@ -1,14 +1,8 @@
-<% book(result => { %>
-    <!-- <form action="/books" method="post"> -->
-        <img src="<%= result.thumbnail_url %>" />
-        <li><%= result.title %></li>
-        <li><%= result.authors %></li>
-        <li><%= result.thumbnail_url %></li>
-        <li><%= result.description %></li>
-        <!-- <input type="hidden" name="title" value="<%= result.title %>" />
-        <input type="hidden" name="authors" value="<%= result.authors %>" />
-        <input type="hidden" name="thumbnail_url" value="<%= result.thumbnail_url %>" />
-        <input type="hidden" name="description" value="<%= result.description %>" />
-    <button>Add to my bookshelf</button> -->
-    </form>
-<% }) %>
+<section>
+    <img src="<%= book.thumbnail_url %>" />
+    <h3> <%= book.title %> </h3>
+    <h3> <%= book.authors %> </h3>
+    <p><%= book.description %> </p>
+    <button><a href="/">Home</a></button>
+</section>
+
