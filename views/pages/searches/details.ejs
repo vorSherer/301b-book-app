@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+    <title>Book Details</title>
     <link rel="stylesheet" href="../../styles/reset.css" />
     <link rel="stylesheet" href="../../styles/base.css" />
 </head>
 <body>
-    <nav>
-        <h4>Great Reads!</h4>
-        <a href="/">Home</a>
-        <a href="/searches/new">Search</a>
-      </nav>
-    <h1>Search Results</h1>
+    <h1>Saved books</h1>
 
     <ul>
-        <% books.forEach(result => { %>
-            <form action="/books" method="post">
+        <% booksArray.forEach(result => { %>
+            <!-- <form action="/books" method="post"> -->
                 <img src="<%= result.thumbnail_url %>" />
                 <li><%= result.title %></li>
                 <li><%= result.authors %></li>
                 <li><%= result.thumbnail_url %></li>
                 <li><%= result.description %></li>
-                <input type="hidden" name="title" value="<%= result.title %>" />
+                <!-- <input type="hidden" name="title" value="<%= result.title %>" />
                 <input type="hidden" name="authors" value="<%= result.authors %>" />
                 <input type="hidden" name="thumbnail_url" value="<%= result.thumbnail_url %>" />
                 <input type="hidden" name="description" value="<%= result.description %>" />
             <button>Add to my bookshelf</button>
-            </form>
+            </form> -->
         <% }) %>
         
     </ul>
