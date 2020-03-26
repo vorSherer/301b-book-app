@@ -6,11 +6,13 @@ const express = require('express');
 const app = express();
 
 const superagent = require('superagent');
+const methodOverride = require('method-override');
 
 const ejs = require('ejs');
 app.use(express.urlencoded({extended:true}));
 
 app.use(express.static('./public'));
+app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
 
@@ -20,8 +22,27 @@ const pg = require('pg');
 
 const client = new pg.Client(process.env.DATABASE_URL);
 
-client.on('error', err => errorHandler(err));
+client.on('error', err => clientErrorHandler(err));
 
+function clientErrorHandler (err) {
+    err = 'Sorry, nothing from the database on that.'
+    response.render('./pages/error.ejs', {error:(err)});
+}
+
+
+
+app.get('/', renderHomepage);
+
+function renderHomepage(request, response) {
+    let sql = 'SELECT * FROM savedbooks;';
+    client.query(sql)
+    .then(results => {
+        let books = results.rows;
+        let bookCount = books.length;
+        console.log('book count ', bookCount);
+        response.render('./pages/searches/details.ejs', {booksArray: books, bookCount});
+    })
+}
 
 app.get('/searches/new', (request, response) => {
     response.render('./pages/searches/new.ejs');
@@ -53,7 +74,18 @@ app.post('/searches', (request, response) => {
     })//.catch(err => errorHandler(err, response));
 })
 
+app.post('/books', (request, response) => {
+    // console.log(request.body);     // REMOVE THIS BEFORE FINISHING
+    let{title, authors, thumbnail_url, description} = request.body;
+    let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4) RETURNING id;';
+    let safeValues = [title, authors, thumbnail_url, description];
+    client.query(sql, safeValues)
+    .then(results => {
+        let id = results.rows.id;
 
+        // find matching book id, render that to a details page.
+    })
+})
 
 //response.body path items.volumeInfo
 function Book (obj) {
@@ -68,6 +100,23 @@ function Book (obj) {
     // this.isbn13 = obj.industryIdentifiers[0].identifier;
 }
 
+// app.put('/update/:task_id', updateBookshelf);
+
+// function deleteBook(request, response) {
+//     // get the id from the param
+//     let id = request.params.book_id;
+//     // deconstruct the request
+//     let {//(request.body key1, e.g.,)//title, description} = request.body;
+//     //search the database for the id that matches
+//     // let sql = 'SELECT * FROM savedbooks WHERE id=$1;';
+//     // let safeValues = [id];
+//     //update the information in the database
+//     let sql = 'UPDATE savedbooks SET {columnName}=$1, {columnName2}=$2, {columnName3}=$3, etc... WHERE id=$last;';
+//     let safeValues = [id];
+//     // redirect to the task
+
+// }
+
 function errorHandler (err, response) {
     // response.render('./pages/error.ejs', {error:'status 500, Not found.'});
     err = 'Sorry, not a valid search.'
@@ -78,12 +127,6 @@ app.get('*', (request, response) => {
     response.status(404).send('Sorry, the page you requested does not exist! :( ');
 });
 
-// $(() => {
-    app.get('/', (request, response) => {
-        // console.log('/hello route');     // REMOVE THIS BEFORE FINISHING
-        response.render('./pages/index.ejs');
-    })
-// })
 
 client.connect()
 .then(() => {
