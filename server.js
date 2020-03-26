@@ -93,13 +93,18 @@ app.post('/books', (request, response) => {
     // console.log(request.body);     // REMOVE THIS BEFORE FINISHING
     let{title, authors, thumbnail_url, description} = request.body;
     let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4) RETURNING id;';
+    // let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4);';
     let safeValues = [title, authors, thumbnail_url, description];
-    client.query(sql, safeValues)
+    // added return in front of client
+    return client.query(sql, safeValues)
     .then(results => {
         let id = results.rows.id;
-        response.redirect(`./pages/books/detail.ejs/${id}`);
+        // commented out 101 per Chance
+        console.log(results.rows)
+        // response.redirect(`./pages/books/show.ejs/${id}`)
+        response.redirect(`/books/${results.rows[0].id}`)   
         // find matching book id, render that to a details page.
-    })
+    }).catch(err => errorHandler(err, response)) 
 })
 
 //.....................Select Book From Database function ........................//
@@ -108,8 +113,13 @@ app.get('/books/:id', (request, response) => {
     let safeValue = [request.params.id];
     client.query(sql, safeValue)
     .then(results => {
-        let singleBook = results.rows;
-        response.render('./pages/books/detail.ejs', {book: singleBook});
+        let singleBook = results.rows[0];
+        response.render('./pages/books/show.ejs', {book: singleBook});
+        // the response.render should go to show.ejs, the detail.ejs is a partial
+        // detail.ejs is not a complete file, detail.ejs will go books/show.ejs
+        // work on getting detail's function to work in show.ejs, and then 
+        // work on getting it to work as a partial
+        // impossible to get there directly
     })
 });
 
