@@ -95,10 +95,10 @@ function Book (obj) {
 
 function addBookHandler(request, response) {
     // console.log(request.body);     // REMOVE THIS BEFORE FINISHING
-    let{title, authors, thumbnail_url, description} = request.body;
-    let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4) RETURNING id;';
-    // let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4);';
-    let safeValues = [title, authors, thumbnail_url, description];
+    let myBookshelf = '';
+    let{title, authors, isbn13, thumbnail_url, description} = request.body;
+    let sql = 'INSERT INTO savedbooks (title, authors, isbn13, thumbnail_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;';
+    let safeValues = [title, authors, isbn13, thumbnail_url, description, myBookshelf];
     // added return in front of client
     return client.query(sql, safeValues)
     .then(results => {
@@ -113,25 +113,38 @@ function addBookHandler(request, response) {
 
 //.....................Select Book From Database function ........................//
 app.get('/books/:id', (request, response) => {
-    let sql = 'SELECT * FROM savedbooks WHERE id=$1;';
-    let safeValue = [request.params.id];
-    client.query(sql, safeValue)
-    .then(results => {
-        let singleBook = results.rows[0];
-        response.render('./pages/books/show.ejs', {book: singleBook});
-        // the response.render should go to show.ejs, the detail.ejs is a partial
-        // detail.ejs is not a complete file, detail.ejs will go books/show.ejs
-        // work on getting detail's function to work in show.ejs, and then 
-        // work on getting it to work as a partial
-        // impossible to get there directly
-    })
+    getBookshelves()
+      .then(shelves => {
+        let sql = 'SELECT * FROM savedbooks WHERE id=$1;';
+        let safeValue = [request.params.id];
+        client.query(sql, safeValue)
+          .then(results => {
+            let singleBook = results.rows[0];
+            response.render('./pages/books/show.ejs', {book: singleBook, bookshelves: shelves.rows});
+        }).catch(err => errorHandler(err, response));
+    });
 });
 
+function getBookshelves() {
+    let SQL = 'SELECT DISTINCT bookshelf FROM savedbooks ORDER BY bookshelf;';
+    return client.query(SQL);
+}
+
+  //..................... Update Book in Database function ........................//
+app.put('/books/:id', updateBookshelf);
+
+function updateBookshelf(request,response) {
+    // console.log(response.body);     // REMOVE THIS BEFORE FINISHING
+    let{title, authors, isbn13, thumbnail_url, description, bookshelf} = request.body;
+    let sql = `UPDATE savedbooks SET title=$1, authors=$2, isbn13=$3, thumbnail_url=$4, description=$5, bookshelf=$6 WHERE id=$7;`;
+    let safeValues = [title, authors, isbn13, thumbnail_url, description, bookshelf, request.params.id];
+    client.query(sql, safeValues)
+      .then(response.redirect(`/books/${request.params.id}`))
+      .catch(err => errorHandler(err, response));
+}
 
 
 
-//..................... Update Book in Database function ........................//
-// app.put('/update/:task_id', updateBookshelf);
 
 //..................... Delete Book From Database function ........................//
 // function deleteBook(request, response) {

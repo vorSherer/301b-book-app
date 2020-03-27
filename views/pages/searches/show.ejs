@@ -18,12 +18,12 @@
     <ul>
         <% books.forEach(result => { %>
             <form action="/books" method="post">
-                <img src="<%= result.thumbnail_url %>" />
-
+                
                 <li><%= result.title %></li>
                 <li><%= result.authors %></li>
                 <li><%= result.isbn13 %></li>
-                <li><%= result.thumbnail_url %></li>
+                <img src="<%= result.thumbnail_url %>" />
+                <!-- <li><%= result.thumbnail_url %></li> -->
                 <li><%= result.description %></li>
 
                 <input type="hidden" name="title" value="<%= result.title %>" />
