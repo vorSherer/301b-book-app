@@ -32,7 +32,11 @@ function clientErrorHandler (err) {
 
 
 app.get('/', renderHomepage);
+app.get('/searches/new', bookRequestPageHandler);
+app.post('/searches', bookFetchHandler);
+app.post('/books', addBookHandler);
 
+//..................... Homepage view function ........................//
 function renderHomepage(request, response) {
     let sql = 'SELECT * FROM savedbooks;';
     client.query(sql)
@@ -44,13 +48,13 @@ function renderHomepage(request, response) {
     })
 }
 
-//..................... Book Search function ........................//
-app.get('/searches/new', (request, response) => {
+//..................... Display Book Search Page function ........................//
+function bookRequestPageHandler(request, response) {
     response.render('./pages/searches/new.ejs');
-})
+}
 
 //.....................Initial Book Search function ........................//
-app.post('/searches', (request, response) => {
+function bookFetchHandler(request, response) {
     // console.log('req.body: ', request.body);     // REMOVE THIS BEFORE FINISHING
     let searchItem = request.body.search[0]
     let titleOrAuthor = request.body.search[1];
@@ -73,23 +77,23 @@ app.post('/searches', (request, response) => {
     })
     response.render('./pages/searches/show.ejs', {books:returnSample})
     })//.catch(err => errorHandler(err, response));
-})
+}
 
 //..................... Book Constructor function ........................//
 function Book (obj) {
     const placeholderImage = 'http://i.imgur.com/J5LVHEL.jpg';
     const regex = /^(http:\/\/)/g;
-    // console.log('constr title: ', obj.title);     // REMOVE THIS BEFORE FINISHING
     
     this.title = obj.title ? obj.title : 'Title not available';
     this.authors = obj.authors ? obj.authors[0] : 'No single author available';
     this.thumbnail_url = obj.imageLinks ? obj.imageLinks.smallThumbnail.replace(regex, 'https://') : placeholderImage;
     this.description = obj.description ? obj.description : 'Description not provided';
-    // this.isbn13 = obj.industryIdentifiers[0].identifier;
+    this.isbn13 = obj.industryIdentifiers[0].identifier;
 }
 
 //.....................Add Book function ........................//
-app.post('/books', (request, response) => {
+
+function addBookHandler(request, response) {
     // console.log(request.body);     // REMOVE THIS BEFORE FINISHING
     let{title, authors, thumbnail_url, description} = request.body;
     let sql = 'INSERT INTO savedbooks (title, authors, thumbnail_url, description) VALUES ($1, $2, $3, $4) RETURNING id;';
@@ -98,14 +102,14 @@ app.post('/books', (request, response) => {
     // added return in front of client
     return client.query(sql, safeValues)
     .then(results => {
-        let id = results.rows.id;
+        let id = results.rows[0].id;
         // commented out 101 per Chance
-        console.log(results.rows)
+        console.log(results.rows[0])     // REMOVE THIS BEFORE FINISHING
         // response.redirect(`./pages/books/show.ejs/${id}`)
         response.redirect(`/books/${results.rows[0].id}`)   
         // find matching book id, render that to a details page.
     }).catch(err => errorHandler(err, response)) 
-})
+}
 
 //.....................Select Book From Database function ........................//
 app.get('/books/:id', (request, response) => {
