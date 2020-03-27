@@ -7,11 +7,8 @@
   </head>
   <body>
     <main>
-      <nav>
-        <h4>Great Reads!</h4>
-        <a href="/">Home</a>
-        <a href="/searches/new">Search</a>
-      </nav>
+      <%- include('../layout/navbar.ejs') %>
+
       <h4>Search by Title or Author</h4>
       <form action="/searches" method="post">
         <input type="text" name="search" placeholder="Enter a title or author" required>
