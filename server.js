@@ -88,7 +88,7 @@ function Book (obj) {
     this.authors = obj.authors ? obj.authors[0] : 'No single author available';
     this.thumbnail_url = obj.imageLinks ? obj.imageLinks.smallThumbnail.replace(regex, 'https://') : placeholderImage;
     this.description = obj.description ? obj.description : 'Description not provided';
-    this.isbn13 = obj.industryIdentifiers[0].identifier;
+    this.isbn13 = obj.industryIdentifiers ? obj.industryIdentifiers[0].identifier : 'No ISBN number provided';
 }
 
 //.....................Add Book function ........................//
